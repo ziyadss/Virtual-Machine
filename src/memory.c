@@ -1,6 +1,9 @@
-const uint16_t MEMORY_SIZE = UINT16_MAX;
-uint16_t PC_START = 0x3000;
-uint16_t mem[UINT16_MAX] = {0};
+#include "header.h"
+
+word_t mem[MEMORY_SIZE] = {0};
+
+static inline word_t mem_read(word_t address) { return mem[address]; }
+static inline void mem_write(word_t address, word_t val) { mem[address] = val; }
 
 int main()
 {
