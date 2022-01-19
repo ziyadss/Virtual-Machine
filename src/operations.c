@@ -40,3 +40,10 @@ static inline void uf(enum REG r)
     else
         registers[RCND] = FP;
 }
+
+#define SGNEXTIMM(i) sgn_ext(IMM(i), 5)
+#define IMM(i) ((i) & 0x1F)
+static inline word_t sgn_ext(word_t n, int b)
+{
+    return (n >> (b - 1) & 1) ? (n | WORD_MAX << b) : n;
+}
