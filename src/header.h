@@ -5,10 +5,10 @@
 
 typedef uint16_t word_t;
 
-const word_t WORD_MAX = ((word_t) ~(word_t)0);
+#define WORD_MAX ((word_t) ~(word_t)0)
 
-const word_t MEMORY_SIZE = WORD_MAX;
-const word_t PC_START = 0x3000;
+#define MEMORY_SIZE WORD_MAX + 1
+#define PC_START 0x3000
 
 enum REG
 {

@@ -2,7 +2,7 @@
 
 static inline word_t OPCODE(word_t instruction) { return instruction >> 12; }
 
-const word_t OP_COUNT = 16;
+#define OP_COUNT 16
 typedef void (*operation_t)(word_t instruction);
 
 static inline void br(word_t instruction){};
