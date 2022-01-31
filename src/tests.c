@@ -10,7 +10,7 @@ void print_registers()
 int add1()
 {
     uint32_t pass = 0;
-    word_t OPCODE = 0b0001;
+    word_t opcode = 0b0001;
     word_t instruction = 0b0001000000000000;
     for (int dr = 0; dr < 8; dr++)
     {
@@ -23,7 +23,7 @@ int add1()
                 instruction |= sr2;
 
                 word_t op1 = registers[sr1], op2 = registers[sr2];
-                operations[OPCODE](instruction);
+                operations[opcode](instruction);
                 word_t res = registers[dr];
 
                 if (op1 + op2 == res)
