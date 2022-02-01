@@ -28,3 +28,5 @@ enum REG
 };
 
 word_t registers[RCNT] = {0};
+
+bool running = false;
