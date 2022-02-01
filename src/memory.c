@@ -1,3 +1,5 @@
+#pragma once
+
 #include "header.h"
 
 word_t mem[MEMORY_SIZE] = {0};
