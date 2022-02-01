@@ -34,7 +34,12 @@ static inline word_t off(word_t instruction, int bits) { return instruction & ((
 static inline word_t sgnext(word_t num, int bits) { return (num >> (bits - 1) & 1) ? (num | WORD_MAX << bits) : num; }
 static inline word_t sgnextoff(word_t instruction, int bits) { return sgnext(off(instruction, bits), bits); }
 
-static inline void br(word_t instruction){};
+static inline void br(word_t instruction)
+{
+    if (registers[RCND] & dr(instruction))
+        registers[RPC] += sgnextoff(instruction, 9);
+};
+
 static inline void add(word_t instruction)
 {
     word_t op1 = registers[sr1(instruction)];
@@ -44,17 +49,25 @@ static inline void add(word_t instruction)
     registers[dst] = op1 + op2;
     uf(dst);
 };
+
 static inline void ld(word_t instruction)
 {
     word_t dst = dr(instruction);
     registers[dst] = mem_read(registers[RPC] + sgnextoff(instruction, 9));
     uf(dst);
 };
+
 static inline void st(word_t instruction)
 {
     mem_write(registers[RPC] + sgnextoff(instruction, 9), registers[dr(instruction)]);
 };
-static inline void jsr(word_t instruction){};
+
+static inline void jsr(word_t instruction)
+{
+    registers[R7] = registers[RPC];
+    registers[RPC] = bit(instruction, 11) ? registers[RPC] + sgnextoff(instruction, 11) : registers[sr1(instruction)];
+};
+
 static inline void and (word_t instruction)
 {
     word_t op1 = registers[sr1(instruction)];
@@ -64,41 +77,54 @@ static inline void and (word_t instruction)
     registers[dst] = op1 & op2;
     uf(dst);
 };
+
 static inline void ldr(word_t instruction)
 {
     word_t dst = dr(instruction);
     registers[dst] = mem_read(registers[sr1(instruction)] + sgnextoff(instruction, 9));
     uf(dst);
 };
+
 static inline void str(word_t instruction)
 {
     mem_write(registers[sr1(instruction)] + sgnextoff(instruction, 9), registers[dr(instruction)]);
 };
+
 static inline void rti(word_t instruction){};
+
 static inline void not(word_t instruction)
 {
     word_t dst = dr(instruction);
     registers[dst] = ~registers[sr1(instruction)];
     uf(dst);
 };
+
 static inline void ldi(word_t instruction)
 {
     word_t dst = dr(instruction);
     registers[dst] = mem_read(mem_read(registers[RPC] + sgnextoff(instruction, 9)));
     uf(dst);
 };
+
 static inline void sti(word_t instruction)
 {
     mem_write(mem_read(registers[RPC] + sgnextoff(instruction, 9)), registers[dr(instruction)]);
 };
-static inline void jmp(word_t instruction){};
+
+static inline void jmp(word_t instruction)
+{
+    registers[RPC] = registers[sr1(instruction)];
+};
+
 static inline void res(word_t instruction){};
+
 static inline void lea(word_t instruction)
 {
     word_t dst = dr(instruction);
     registers[dst] = registers[RPC] + sgnextoff(instruction, 9);
     uf(dst);
 };
+
 static inline void trap(word_t instruction){};
 
 operation_t operations[OP_COUNT] = {br, add, ld, st, jsr, and, ldr, str, rti, not, ldi, sti, jmp, res, lea, trap};
