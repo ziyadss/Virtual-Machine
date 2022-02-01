@@ -65,7 +65,12 @@ static inline void ldr(word_t instruction){};
 static inline void str(word_t instruction){};
 static inline void rti(word_t instruction){};
 static inline void not(word_t instruction){};
-static inline void ldi(word_t instruction){};
+static inline void ldi(word_t instruction)
+{
+    word_t dst = dr(instruction);
+    registers[dst] = mem_read(mem_read(registers[RPC] + sgnextoff(instruction, 9)));
+    uf(dst);
+};
 static inline void sti(word_t instruction){};
 static inline void jmp(word_t instruction){};
 static inline void res(word_t instruction){};
