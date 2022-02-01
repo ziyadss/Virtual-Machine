@@ -20,13 +20,13 @@ int main()
     registers[7] = 7;
 
     // print_registers();
-    printf("%d\n", add1());
+    printf("%d\n", add_sr2());
     // print_registers();
-    printf("%d\n", add2());
+    printf("%d\n", add_imm());
     // print_registers();
-    printf("%d\n", and1());
+    printf("%d\n", and_sr2());
     // print_registers();
-    printf("%d\n", and2());
+    printf("%d\n", and_imm());
     // print_registers();
     
 
