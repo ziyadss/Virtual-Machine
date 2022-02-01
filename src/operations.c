@@ -2,6 +2,7 @@
 
 #include "header.h"
 #include "memory.c"
+#include "traps.c"
 
 #define OP_COUNT 16
 typedef void (*operation_t)(word_t instruction);
@@ -125,6 +126,9 @@ static inline void lea(word_t instruction)
     uf(dst);
 };
 
-static inline void trap(word_t instruction){};
+static inline void trap(word_t instruction)
+{
+    traps[off(instruction, 8) - TRAP_OFFSET]();
+};
 
 operation_t operations[OP_COUNT] = {br, add, ld, st, jsr, and, ldr, str, rti, not, ldi, sti, jmp, res, lea, trap};
