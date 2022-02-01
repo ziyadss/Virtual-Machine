@@ -50,7 +50,10 @@ static inline void ld(word_t instruction)
     registers[dst] = mem_read(registers[RPC] + sgnextoff(instruction, 9));
     uf(dst);
 };
-static inline void st(word_t instruction){};
+static inline void st(word_t instruction)
+{
+    mem_write(registers[RPC] + sgnextoff(instruction, 9), registers[dr(instruction)]);
+};
 static inline void jsr(word_t instruction){};
 static inline void and (word_t instruction)
 {
@@ -67,7 +70,10 @@ static inline void ldr(word_t instruction)
     registers[dst] = mem_read(registers[sr1(instruction)] + sgnextoff(instruction, 9));
     uf(dst);
 };
-static inline void str(word_t instruction){};
+static inline void str(word_t instruction)
+{
+    mem_write(registers[sr1(instruction)] + sgnextoff(instruction, 9), registers[dr(instruction)]);
+};
 static inline void rti(word_t instruction){};
 static inline void not(word_t instruction)
 {
@@ -81,7 +87,10 @@ static inline void ldi(word_t instruction)
     registers[dst] = mem_read(mem_read(registers[RPC] + sgnextoff(instruction, 9)));
     uf(dst);
 };
-static inline void sti(word_t instruction){};
+static inline void sti(word_t instruction)
+{
+    mem_write(mem_read(registers[RPC] + sgnextoff(instruction, 9)), registers[dr(instruction)]);
+};
 static inline void jmp(word_t instruction){};
 static inline void res(word_t instruction){};
 static inline void lea(word_t instruction)
