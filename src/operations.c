@@ -61,7 +61,12 @@ static inline void and (word_t instruction)
     registers[dst] = op1 & op2;
     uf(dst);
 };
-static inline void ldr(word_t instruction){};
+static inline void ldr(word_t instruction)
+{
+    word_t dst = dr(instruction);
+    registers[dst] = mem_read(registers[sr1(instruction)] + sgnextoff(instruction, 9));
+    uf(dst);
+};
 static inline void str(word_t instruction){};
 static inline void rti(word_t instruction){};
 static inline void not(word_t instruction){};
@@ -74,7 +79,12 @@ static inline void ldi(word_t instruction)
 static inline void sti(word_t instruction){};
 static inline void jmp(word_t instruction){};
 static inline void res(word_t instruction){};
-static inline void lea(word_t instruction){};
+static inline void lea(word_t instruction)
+{
+    word_t dst = dr(instruction);
+    registers[dst] = registers[RPC] + sgnextoff(instruction, 9);
+    uf(dst);
+};
 static inline void trap(word_t instruction){};
 
 operation_t operations[OP_COUNT] = {br, add, ld, st, jsr, and, ldr, str, rti, not, ldi, sti, jmp, res, lea, trap};
