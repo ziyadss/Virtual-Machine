@@ -69,7 +69,12 @@ static inline void ldr(word_t instruction)
 };
 static inline void str(word_t instruction){};
 static inline void rti(word_t instruction){};
-static inline void not(word_t instruction){};
+static inline void not(word_t instruction)
+{
+    word_t dst = dr(instruction);
+    registers[dst] = ~registers[sr1(instruction)];
+    uf(dst);
+};
 static inline void ldi(word_t instruction)
 {
     word_t dst = dr(instruction);
