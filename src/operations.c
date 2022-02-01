@@ -1,3 +1,5 @@
+#pragma once
+
 #include "header.h"
 
 #define OP_COUNT 16
@@ -46,7 +48,17 @@ static inline void add(word_t instruction)
 static inline void ld(word_t instruction){};
 static inline void st(word_t instruction){};
 static inline void jsr(word_t instruction){};
-static inline void and (word_t instruction){};
+static inline void and (word_t instruction)
+{
+    word_t op1 = registers[sr1(instruction)];
+    word_t op2 = bit(instruction, 5) ? sgnextimm(instruction) : registers[sr2(instruction)];
+
+    word_t dst = dr(instruction);
+
+    registers[dst] = op1 & op2;
+
+    uf(dst);
+};
 static inline void ldr(word_t instruction){};
 static inline void str(word_t instruction){};
 static inline void rti(word_t instruction){};

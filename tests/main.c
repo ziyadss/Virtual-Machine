@@ -1,8 +1,8 @@
 #include "add.c"
+#include "and.c"
 
 void print_registers()
 {
-    printf("\n");
     for (enum REG r = 0; r < RCNT; r++)
         printf("%d: %d,   \t", r, registers[r]);
     printf("\n");
@@ -19,11 +19,16 @@ int main()
     registers[6] = 6;
     registers[7] = 7;
 
-    print_registers();
-    printf("\n%d\n", add1());
-    print_registers();
-    printf("\n%d\n", add2());
-    print_registers();
+    // print_registers();
+    printf("%d\n", add1());
+    // print_registers();
+    printf("%d\n", add2());
+    // print_registers();
+    printf("%d\n", and1());
+    // print_registers();
+    printf("%d\n", and2());
+    // print_registers();
+    
 
     return 0;
 }
